@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "strict": true
-    }
+      "target": "ES2021",
+      "lib": ["ES2021"],
+      "outDir": "./dist",
+      "rootDir": "./src"
+    },
+    "include": ["src"]
 }
+  

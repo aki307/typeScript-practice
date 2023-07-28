@@ -1,5 +1,4 @@
-"use strict";
-var output = function (text) {
-    return text + "!";
+const output = (text) => {
+    return `${text}!`;
 };
 console.log(output('HelloWorld'));
