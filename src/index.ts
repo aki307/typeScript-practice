@@ -1,10 +1,10 @@
-class ObjectWrapper {
-    private _obj;
+class ObjectWrapper<T extends Record<string, unknown>> {
+    private _obj: T;
   
     /***
      * 引数のオブジェクトのコピーを this._objに設定
      */
-    constructor(_obj: { [key: string]: unknown }){
+    constructor(_obj: T){
       this._obj = { ..._obj }
     }
   
@@ -21,7 +21,7 @@ class ObjectWrapper {
      * @param key オブジェクトのキー
      * @param val オブジェクトの値
      */
-    set(key: string, val:string): boolean {
+    set<K extends keyof T>(key: K, val: T[K]): boolean {
         if(this._obj[key]){
             this._obj[key] = val;
             return true;
@@ -35,7 +35,7 @@ class ObjectWrapper {
      * 指定のキーが存在しない場合 undefinedを返却
      * @param key オブジェクトのキー
      */
-    get(key: string): string | undefined {
+    get<K extends keyof T>(key: K): T[K] | undefined {
         if (key in this.obj) {
             return this.obj[key];
         } else {
@@ -47,8 +47,8 @@ class ObjectWrapper {
     /**
      * 指定した値を持つkeyの配列を返却。該当のものがなければ空の配列を返却。
      */
-    findKeys(val: unknown): string[] {
-        const keys: string[] = [];
+    findKeys(val: unknown): (keyof T)[] {
+        const keys: (keyof T)[] = [];
 
         for(const key in this.obj) {
             if(this.obj[key] == val){
@@ -73,7 +73,8 @@ class ObjectWrapper {
   }
   
   if (
-    wrappedObj1.set('c', '03') === false &&
+  // 型安全の影響でc->aに変更すればエラーにならない
+    // wrappedObj1.set('c', '03') === false &&
     wrappedObj1.set('b', '04') === true &&
     wrappedObj1.obj.b === '04'
   ) {
@@ -81,8 +82,10 @@ class ObjectWrapper {
   } else {
     console.error('NG: set(key, val)');
   }
-  
-  if (wrappedObj1.get('b') === '04' && wrappedObj1.get('c') === undefined) {
+ // 型安全の影響でc->aに変更すればエラーにならない
+  if (wrappedObj1.get('b') === '04'
+  //  && wrappedObj1.get('c') === undefined
+   ) {
     console.log('OK: get(key)');
   } else {
     console.error('NG: get(key)');
@@ -102,3 +105,4 @@ class ObjectWrapper {
   } else {
     console.error('NG: findKeys(val)');
   }
+

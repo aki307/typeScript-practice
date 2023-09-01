@@ -64,15 +64,20 @@ if (wrappedObj1.obj.a === '01') {
 else {
     console.error('NG: get obj()');
 }
-if (wrappedObj1.set('c', '03') === false &&
-    wrappedObj1.set('b', '04') === true &&
+if (
+// 型安全の影響でc->aに変更すればエラーにならない
+// wrappedObj1.set('c', '03') === false &&
+wrappedObj1.set('b', '04') === true &&
     wrappedObj1.obj.b === '04') {
     console.log('OK: set(key, val)');
 }
 else {
     console.error('NG: set(key, val)');
 }
-if (wrappedObj1.get('b') === '04' && wrappedObj1.get('c') === undefined) {
+// 型安全の影響でc->aに変更すればエラーにならない
+if (wrappedObj1.get('b') === '04'
+//  && wrappedObj1.get('c') === undefined
+) {
     console.log('OK: get(key)');
 }
 else {
